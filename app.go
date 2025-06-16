@@ -37,6 +37,9 @@ type App struct {
 	ctx                         context.Context
 	contextGenerator            *ContextGenerator
 	fileWatcher                 *Watchman
+	computerVision              *ComputerVision
+	computerAutomation          *ComputerAutomation
+	aiAgent                     *AIAgent
 	settings                    AppSettings
 	currentCustomIgnorePatterns *gitignore.GitIgnore
 	configPath                  string
@@ -53,6 +56,9 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	a.contextGenerator = NewContextGenerator(a)
 	a.fileWatcher = NewWatchman(a)
+	a.computerVision = NewComputerVision(a)
+	a.computerAutomation = NewComputerAutomation(a)
+	a.aiAgent = NewAIAgent(a)
 	a.useGitignore = true    // Default to true, matching frontend
 	a.useCustomIgnore = true // Default to true, matching frontend
 
