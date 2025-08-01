@@ -9,18 +9,23 @@ Save your context with Shotgun!
 
 **That means you get 25 huge, fully coherent patches per day for your codebase—absolutely free, thanks to complete context transfer.**
 
+**🤖 NEW: Introducing AI Agent Co-pilot!**
+Now with comprehensive computer use and computer vision capabilities! Your AI assistant can see your screen, control your computer, and help with everyday tasks through natural language commands.
+
 Perfect for dynamically-typed languages:
 
 Python
 JavaScript
 
-# Shotgun App
+# Shotgun App + AI Agent Co-pilot
 
-*One‑click codebase "blast" for Large‑Language‑Model workflows.*
+*One‑click codebase "blast" for Large‑Language‑Model workflows + intelligent computer automation*
 
 ---
 
 ## 1. What Shotgun Does
+
+### Original Shotgun Features
 Shotgun is a tiny desktop tool that **explodes an entire project into a single,
 well‑structured text payload** designed for AI assistants.
 Think of it as a rapid‑fire alternative to copy‑pasting dozens of files by hand:
@@ -32,25 +37,34 @@ Think of it as a rapid‑fire alternative to copy‑pasting dozens of files by h
     to ask for multi‑file edits, refactors, bug fixes, reviews, or documentation.
 *   **Receive a diff‑style reply** and apply changes with your favourite patch tool.
 
-Shotgun trades surgical, single‑file prompts for a **"whole‑repository blast"** –
-hence the name.
+### 🤖 New AI Agent Co-pilot Features
+The AI Agent Co-pilot adds comprehensive computer automation:
+
+*   **🎯 Natural Language Commands** - "Take a screenshot and save it", "Open calculator", "Read text on screen"
+*   **👁️ Computer Vision** - Real-time screen capture, UI element detection, OCR text recognition
+*   **🖱️ Smart Automation** - Mouse control, keyboard input, window management, app launching
+*   **🧠 Context Awareness** - Understands screen content and user intent
+*   **🛡️ Safety Features** - Confirmation prompts, action logging, permission controls
+*   **📊 Task Management** - Queue complex workflows, monitor progress, replay actions
 
 ---
 
 ## 2. Why You Might Need It
 
-| Scenario                 | Pain Point                             | Shotgun Benefit                                           |
-|--------------------------|----------------------------------------|-----------------------------------------------------------|
-| **Bulk bug fixing**      | "Please fix X across 12 files."        | Generates a complete snapshot so the LLM sees all usages. |
-| **Large‑scale refactor** | IDE refactors miss edge cases.         | LLM gets full context and returns a patch set.            |
-| **On‑boarding review**   | New joiner must understand legacy code. | Produce a single, searchable text file to discuss in chat.  |
-| **Doc generation**       | Want docs/tests for every exported symbol. | LLM can iterate over full source without extra API calls. |
-| **Cursor / CodePilot prompts** | Tools accept pasted context but no filesystem. | Shotgun bridges the gap.                                  |
+| Scenario                 | Traditional Shotgun Benefit | AI Agent Co-pilot Benefit |
+|--------------------------|-------------------------------|---------------------------|
+| **Bulk bug fixing**      | Generates complete snapshot for LLM | Automates testing and verification |
+| **Large‑scale refactor** | LLM gets full context | Helps navigate and modify UI elements |
+| **Documentation**        | Produce searchable text files | Screenshots and automates doc generation |
+| **Accessibility**        | N/A | Voice commands and screen reading |
+| **Repetitive Tasks**     | N/A | Record and replay complex workflows |
+| **Screen Analysis**      | N/A | Understand UI layouts and extract information |
 
 ---
 
 ## 3. Key Features
 
+### Original Shotgun Features
 *   ⚡ **Fast tree scan** (Go + Wails backend) – thousands of files in milliseconds.
 *   ✅ **Interactive exclude list** – skip folders, temporary files, or secrets.
 *   📝 **Deterministic delimiters** – easy for LLMs to parse and for you to split.
@@ -58,44 +72,45 @@ hence the name.
 *   🪶 **Lightweight** – no DB, no cloud; a single native executable plus a Vue UI.
 *   🖥️ **Cross‑platform** – Windows, macOS, Linux.
 
+### 🤖 New AI Agent Features
+*   🎯 **Natural Language Processing** – Understand and execute spoken/typed commands
+*   👁️ **Computer Vision** – Screen capture, UI detection, OCR, visual analysis
+*   🖱️ **Computer Automation** – Mouse, keyboard, window control, app management
+*   🧠 **AI Integration** – OpenAI, Anthropic, local models for intelligent planning
+*   📊 **Task Management** – Queue, monitor, and replay complex workflows
+*   🛡️ **Safety & Security** – Confirmation prompts, logging, permission controls
+*   📱 **Real-time Preview** – Live screen monitoring and element highlighting
+*   🎬 **Action Recording** – Record and replay manual workflows
+
 ---
 
-## 4. How It Works
+## 4. Quick Start
 
-(This describes the UI flow. The core `GenerateShotgunOutput` Go function remains the primary backend logic for creating the text payload based on the selected root and exclusions.)
+### Traditional Shotgun Workflow
+1.  **Step 1: Prepare Context** - Select project, exclude unwanted files
+2.  **Step 2: Compose Prompt** - Generate context and create LLM prompts  
+3.  **Step 3: Execute Prompt** - Send to AI service and get responses
+4.  **Step 4: Apply Patch** - Apply the generated changes
 
-1.  **Step 1: Prepare Context**
-    -   User selects a project folder.
-    -   The file tree is displayed in the `LeftSidebar`.
-    -   User can mark files/folders for exclusion.
-    -   The application automatically (or via a button) triggers context generation in Go (`GenerateShotgunOutput`).
-    -   The resulting context (tree + file contents) is stored in `shotgunPromptContext` and passed to `CentralPanel.vue`, which in turn makes it available to `Step2GenerateDiff.vue`.
-2.  **Step 2: Compose Prompt**
-    -   `Step2GenerateDiff.vue` is shown.
-    -   It displays the `shotgunPromptContext` (likely in a read-only textarea).
-    -   User types their instructions for the LLM into another textarea (the prompt).
-    -   User clicks "Compose Prompt" (was "Generate Diff").
-    -   `MainLayout.vue` (simulates) sending the `shotgunPromptContext` and the user's prompt to an LLM.
-    -   (Simulated) LLM returns a diff, which is then displayed in the "Diff Viewer" section of `Step2GenerateDiff.vue`.
-3.  **Step 3: Execute Prompt**
-    -   `Step3ExecuteDiff.vue` is shown.
-    -   User clicks "Execute Prompt" (was "Execute Diff").
-    -   `MainLayout.vue` (simulates) the "execution" of this prompt/diff. This step is more conceptual in the current stubbed implementation but would represent running or applying the changes indicated by the LLM.
-    -   Logs appear in the step-specific console within `Step3ExecuteDiff.vue` and/or the `BottomConsole.vue`.
-4.  **Step 4: Apply Patch**
-    -   `Step4ApplyPatch.vue` is shown.
-    -   User interacts with a (currently stubbed) patch editor.
-    -   User clicks "Apply Selected" or "Apply All & Finish".
-    -   `MainLayout.vue` (simulates) applying these patches.
+### 🤖 New AI Agent Workflow
+1.  **Start the Agent** - Click "Start Agent" in the AI Agent panel
+2.  **Configure Settings** - Set up AI provider (OpenAI, Anthropic, etc.)
+3.  **Give Commands** - Type natural language tasks like:
+    - `"Take a screenshot and analyze the UI elements"`
+    - `"Open calculator and compute 15 * 23"`
+    - `"Read all text on screen and summarize it"`
+    - `"Monitor this window and alert me when it changes"`
+4.  **Watch Magic Happen** - The agent sees your screen and controls your computer
 
 ---
 
 ## 5. Installation
 
 ### 5.1. Prerequisites
-*   **Go ≥ 1.20**   `go version`
+*   **Go ≥ 1.21**   `go version`
 *   **Node.js LTS**  `node -v`
 *   **Wails CLI**    `go install github.com/wailsapp/wails/v2/cmd/wails@latest`
+*   **🤖 AI API Key**  OpenAI, Anthropic, or other supported provider
 
 ### 5.2. Clone & Bootstrap
 ```bash
@@ -105,6 +120,9 @@ go mod tidy           # backend deps
 cd frontend
 npm install           # Vue deps
 cd ..
+
+# Optional: Install Python extensions for advanced computer vision
+pip install -r requirements.txt
 ```
 
 ### 5.3. Run in Dev Mode
@@ -120,33 +138,41 @@ wails build           # binaries land in build/bin/
 
 ---
 
-## 6. Quick‑Start Workflow
+## 6. Quick‑Start Workflows
 
+### Original Shotgun Workflow
 1.  Run `wails dev`. The app window will open.
-2.  **Step 1: Prepare Context**
-    - Click "Select Project Folder" and choose your repository root.
-    - In the left pane (`LeftSidebar`), expand folders and un-tick any items you wish to exclude from the context.
-    - Click the "Prepare Project Context & Proceed" button (typically in `Step1CopyStructure.vue` or a similar area for Step 1).
-    - The generated context (project tree and file contents) will be prepared internally.
-3.  **Step 2: Compose Prompt**
-    - The view will switch to Step 2 (`Step2GenerateDiff.vue`).
-    - The generated project context from Step 1 will be displayed (usually read-only).
-    - Enter your instructions for the LLM in the "Prompt Editor" textarea.
-    - Click "Compose Prompt".
-    - A (mock) diff will be generated and shown in the "Diff Viewer".
-4.  **Step 3: Execute Prompt**
-    - The view will switch to Step 3 (`Step3ExecuteDiff.vue`).
-    - Click "Execute Prompt".
-    - (Mock) execution logs will appear in the console areas.
-5.  **Step 4: Apply Patch**
-    - The view will switch to Step 4 (`Step4ApplyPatch.vue`).
-    - Interact with the (stubbed) patch editor.
-    - Click "Apply Selected" or "Apply All & Finish" to (simulate) completing the process.
-6.  You can navigate between completed steps using the top `HorizontalStepper` or the `LeftSidebar` step list.
+2.  **Step 1: Prepare Context** - Select project folder, exclude unwanted items
+3.  **Step 2: Compose Prompt** - Generate context and create prompts
+4.  **Step 3: Execute Prompt** - Process with AI services  
+5.  **Step 4: Apply Patch** - Apply generated changes
+
+### 🤖 AI Agent Workflow
+1.  **Navigate to AI Agent Panel** - New tab in the interface
+2.  **Configure Agent** - Click settings ⚙️, add API key, enable features
+3.  **Start Agent** - Click "Start Agent" button
+4.  **Try Simple Tasks**:
+    - `"Take a screenshot"` - Captures and displays your screen
+    - `"Open calculator"` - Launches calculator app
+    - `"Detect UI elements"` - Analyzes current screen
+    - `"Type 'Hello World'"` - Types text automatically
+5.  **Advanced Commands**:
+    - `"Monitor this window for changes"`
+    - `"Read all text and copy to clipboard"`
+    - `"Take a screenshot every 30 seconds for 5 minutes"`
 
 ---
 
-## 7. Shotgun Output Anatomy
+## 7. Documentation
+
+### Core Documentation
+*   **[AI Agent Co-pilot Guide](docs/AI_AGENT_COPILOT.md)** - Complete feature documentation
+*   **[Quickstart Guide](docs/QUICKSTART_AI_AGENT.md)** - Get started in minutes
+*   **[Original Architecture](design/architecture.md)** - Technical details
+
+### Example Outputs
+
+#### Traditional Shotgun Output
 ```text
 app/
 ├── main.go
@@ -154,31 +180,35 @@ app/
 └── frontend/
     ├── App.vue
     └── components/
-        └── FileTree.vue (example)
+        └── FileTree.vue
 
 <file path="main.go">
 package main
 ...
 </file>
-
-<file path="frontend/components/FileTree.vue">
-<template>
-...
-</template>
-</file>
 ```
-*   **Tree View** – quick visual map for you & the LLM.
-*   **XML-like File Blocks** – <file path="path/to/file">...</file> for easy parsing by models.
+
+#### 🤖 AI Agent Capabilities
+- **Screen Analysis**: Detects buttons, text fields, images, and interactive elements
+- **Smart Automation**: Contextual clicking, typing, and navigation
+- **Task Orchestration**: Multi-step workflows with error handling
+- **Visual Feedback**: Real-time overlays showing detected elements
 
 ---
 
 ## 8. Best Practices
+
+### Traditional Shotgun
 *   **Trim the noise** – exclude lock files, vendored libs, generated assets.
-    Less tokens → cheaper & more accurate completions.
 *   **Ask for diffs, not whole files** – keeps responses concise.
 *   **Iterate** – generate → ask → patch → re‑generate if needed.
-*   **Watch token limits** – even million‑token models have practical caps.
-    Use Shotgun scopes (root folder vs subfolder) to stay under budget.
+
+### 🤖 AI Agent Safety
+*   **Start Simple** – Begin with screenshots and basic commands
+*   **Enable Safety Checks** – Always confirm destructive actions
+*   **Review Logs** – Monitor what the agent does
+*   **Test First** – Try automation in safe environments
+*   **Use Specific Commands** – Clear instructions work better than vague requests
 
 ---
 
@@ -188,40 +218,95 @@ package main
 |-----------------------------|--------------------------------------------------------------|
 | `wails: command not found`  | Ensure `$GOROOT/bin` or `$HOME/go/bin` is on `PATH`.         |
 | Blank window on `wails dev` | Check Node version & reinstall frontend deps.              |
-| Output too large            | Split Shotgun runs by subdirectory; or exclude binaries/tests. |
+| 🤖 Agent won't start       | Check API key, permissions, and dependency installation     |
+| 🤖 Screen capture fails    | Grant screen recording permissions (macOS/Linux)           |
+| 🤖 Automation blocked      | Enable accessibility permissions, run as admin (Windows)   |
+
+### Platform-Specific Setup
+
+#### macOS
+```bash
+# Grant permissions in System Preferences → Security & Privacy:
+# - Screen Recording (for screenshots)
+# - Accessibility (for automation)
+```
+
+#### Linux  
+```bash
+# Install automation dependencies
+sudo apt-get install libx11-dev libxtst-dev xdotool
+```
+
+#### Windows
+```bash
+# May need to run as Administrator for automation features
+# Install Visual C++ Redistributable if needed
+```
 
 ---
 
 ## 10. Roadmap
 
-- ✅ **Step 1: Prepare Context**  
-  Basic ability to select a project, exclude items, and generate a structured text context.
+### ✅ Completed Features
+- ✅ **Core Shotgun functionality** - File context generation
+- ✅ **AI Agent Co-pilot** - Computer vision and automation
+- ✅ **Screen Capture** - Real-time monitoring and analysis  
+- ✅ **UI Detection** - Element recognition and interaction
+- ✅ **Task Management** - Natural language command processing
+- ✅ **Safety Controls** - Permission management and logging
 
-- ✅ **Step 2: Compose Prompt**  
-  - ✅ **Watchman to hot-reload TreeView**  
-  - ✅ **Custom rules**
+### 🚀 Coming Soon
+- ☐ **Advanced OCR** - Layout-preserving text extraction
+- ☐ **Voice Commands** - Speech-to-text task input
+- ☐ **Mobile Control** - iOS/Android device automation
+- ☐ **Web Automation** - Browser interaction capabilities
+- ☐ **Multi-Monitor** - Enhanced multi-display support
+- ☐ **Custom Actions** - User-defined automation templates
+- ☐ **Learning Mode** - Pattern recognition and optimization
+- ☐ **API Extensions** - Third-party service integrations
 
-- ☐ **Step 3: Execute Prompt**  
-  "Executing" the prompt and showing logs.
-
-- ☐ **Step 4: Apply Patch**  
-  Enable applying patches inside Shotgun.  
-  - ☐ Direct API bridge to send output to OpenAI / Gemini without copy-paste  
-  - ☐ CLI version for headless pipelines  
-  - **Watch token limits** – even million-token models have practical caps. Use Shotgun scopes (root folder vs subfolder) to stay under budget.  
+### 🔬 Research Areas
+- Machine learning-based UI prediction
+- Cross-platform automation consistency
+- Advanced computer vision algorithms
+- Natural language understanding improvements
 
 ---
 
 ## 11. Contributing
+
 PRs and issues are welcome!
-Please format Go code with `go fmt` and follow Vue 3 style guidelines.
+
+### Development Guidelines
+- Format Go code with `go fmt`
+- Follow Vue 3 style guidelines  
+- Test AI agent features in safe environments
+- Document new automation capabilities
+- Include safety considerations in PRs
+
+### 🤖 AI Agent Contributions
+When contributing to AI Agent features:
+- Test across multiple platforms
+- Include safety checks and permission handling
+- Document new computer vision capabilities
+- Provide example commands and use cases
 
 ---
 
 ## 12. License
+
 Custom MIT-like – see `LICENSE.md` file.
+
+**Security Notice**: The AI Agent Co-pilot can control your computer. Always:
+- Review what the agent plans to do
+- Test in safe environments first  
+- Keep safety checks enabled
+- Monitor automation logs
+- Use appropriate API key security
 
 ---
 
 Shotgun – load, aim, blast your code straight into the mind of an LLM.
-Iterate faster. Ship better. 
+AI Agent Co-pilot – let AI see and control your computer to get things done.
+
+**Iterate faster. Ship better. Automate smarter.** 🚀
