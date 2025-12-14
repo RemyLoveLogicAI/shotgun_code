@@ -53,3 +53,5 @@ flake8>=6.1.0
 # Optional: GPU acceleration
 # tensorflow>=2.14.0 (uncomment if using TensorFlow)
 # onnxruntime-gpu>=1.16.0 (uncomment for ONNX GPU support)
+fonttools>=4.61.0 # not directly required, pinned by Snyk to avoid a vulnerability
+urllib3>=2.6.0 # not directly required, pinned by Snyk to avoid a vulnerability
